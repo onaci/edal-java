@@ -130,7 +130,7 @@ public abstract class CdmDatasetFactory extends DatasetFactory {
              */
             return dataset;
         } catch (Throwable e) {
-            throw new EdalException("Problem creating dataset " + id + " at " + location, e);
+            throw new EdalException("Problem creating dataset " + id, e);
         } finally {
             NetcdfDatasetAggregator.releaseDataset(nc);
         }
@@ -305,6 +305,9 @@ public abstract class CdmDatasetFactory extends DatasetFactory {
                     String stdName = metadata.getParameter().getStandardName();
                     if (stdName != null && stdName.contains(stdRoot)) {
                         IdComponentEastNorth vectorInfo = determineVectorIdAndComponent(stdName);
+                        if (vectorInfo == null) {
+                          continue;
+                        }
                         if(vectorInfo.isX) {
                             xVars.add(varId);
                             xVarIndexedTrueEN.add(vectorInfo.isEastNorth);
@@ -360,6 +363,12 @@ public abstract class CdmDatasetFactory extends DatasetFactory {
         } else if (stdName.matches("v-.*component")) {
             return new IdComponentEastNorth(stdName.replaceFirst("v-(.*)component", "$1"), false,
                     false);
+        } else if (stdName.startsWith("u-component")) {
+        	return new IdComponentEastNorth(stdName.replaceFirst("u-component", ""), true,
+        			false);
+        } else if (stdName.startsWith("v-component")) {
+        	return new IdComponentEastNorth(stdName.replaceFirst("v-component", ""), false,
+        			false);
         } else if (stdName.matches(".*x_.*velocity")) {
             return new IdComponentEastNorth(stdName.replaceFirst("(.*)x_(.*velocity)", "$1$2"),
                     true, false);
