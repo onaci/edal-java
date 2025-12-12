@@ -4,7 +4,7 @@
     <parent>
         <artifactId>edal</artifactId>
         <groupId>uk.ac.rdg.resc</groupId>
-        <version>1.5.2</version>
+        <version>1.5.3</version>
         <relativePath>..</relativePath>
     </parent>
     <artifactId>edal-wms</artifactId>
@@ -34,7 +34,7 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20160810</version>
+            <version>20230227</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
